@@ -21,6 +21,6 @@ print(list)
 print('b5 = ', b5, 'l5 = ', l5, 'k = ', k)
 pr_b5 = (b5*100)/k
 pr_l5 = (l5*100)/k
-#print('pr_b5 = ', pr_b5, '%', 'pr_l5 = ', pr_l5, '%')
-print('pr_b5 = ', pr_b5, '%', f'{BLUE}{" " * int(b5)}' + f'{WHITE}{" " *(100 - int(b5))}{END}')
-print('pr_l5 = ', pr_l5,'%' , f'{RED}{" " * int(l5)}{WHITE}{" " *(100 - int(l5))}{END}')
+
+print('pr_b5 = ', pr_b5, '%', f'{BLUE}{" " * int(b5 / 10)}{WHITE}{" " *abs(10 - int(l5 / 10))}{END}')
+print('pr_l5 = ', pr_l5,'%' , f'{RED}{" " * int(l5 / 10)}{WHITE}{" " *abs(10 - int(b5 / 10))}{END}')
