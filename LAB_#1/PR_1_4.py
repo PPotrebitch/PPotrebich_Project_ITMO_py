@@ -7,22 +7,19 @@ list = []
 l = [line.rstrip() for line in f]
 
 for n in l:
-    if float(n) != 5 and float(n) >= 0:
+    if float(n) != 5.0 and float(n) >= 0.0:
         list.append(float(n))
-k = len(l)
-b5, l5 = 0, 0
-for i in l:
+k = len(list)
+more_5, less_5 = 0, 0
+for i in list:
     if float(i) > 5.0:
-        b5 += 1
+        more_5 += 1
     elif float(i) < 5.0:
-        l5 += 1
+        less_5 += 1
 f.close()
 print(list)
-print('b5 = ', b5, 'l5 = ', l5, 'k = ', k)
-pr_b5 = (b5*100)/k
-pr_l5 = (l5*100)/k
-
-#print(10 - int(b5 / 10))
-#print('pr_b5 = ', pr_b5, '%', 'pr_l5 = ', pr_l5, '%')
-print('pr_b5 = ', pr_b5, '%', f'{BLUE}{" " * int(b5 / 10)}{WHITE}{" " *abs(10 - int(l5 / 10))}{END}')
-print('pr_l5 = ', pr_l5,'%' , f'{RED}{" " * int(l5 / 10)}{WHITE}{" " *abs(10 - int(b5 / 10))}{END}')
+print('more_5 = ', more_5, 'less_5 = ', less_5, 'k = ', k)
+pr_more_5 = (more_5*100)/k
+pr_less_5 = (less_5*100)/k
+print('pr_more_5 = ', pr_more_5, '%', f'{BLUE}{" " * int(pr_more_5 / 10)}{WHITE}{" " *abs(10 - int(pr_more_5 / 10))}{END}')
+print('pr_less_5 = ', pr_less_5,'%' , f'{RED}{" " * int(pr_less_5 / 10)}{WHITE}{" " *abs(10 - int(pr_less_5 / 10))}{END}')
