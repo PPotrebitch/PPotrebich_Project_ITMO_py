@@ -28,6 +28,15 @@ class A_body_with_an_intemal_cavity(Figure):
             return A_body_with_an_intemal_cavity(self.a + other.a, self.b + other.b, self.c + other.c, max(self.d, other.d))
         else:
             TypeError("Unsupported operand type for +") 
+            
+class ArrayFigure(Figure):
+
+    def __init__(self, a, b, c, k):
+        super().__init__(a, b, c)
+        self.k = k
+
+    def get_array_fig(self):
+        return [self.a * self.b * self.c] * self.k
 
 if __name__ == '__main__':
     
@@ -45,3 +54,4 @@ if __name__ == '__main__':
 
     print("Combined Figure: ", comb_figure.get_volume_fig())
     print("Combined Body: ",  comb_body.get_volume_intemal_cavity())
+    print("Array Figure : ", ArrayFigure(1,2,3, 3).get_array_fig())
