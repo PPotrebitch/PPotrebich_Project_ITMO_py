@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import webbrowser
 
 
-def animSin():
+def anim_sin():
     #plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitayasmoothie-dark.mplstyle')
     t = np.linspace(0, 3*np.pi, 62)
     s = np.sin(t)
