@@ -1,4 +1,4 @@
-from sin_1 import animSin
+from sin_1 import anim_sin
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -9,8 +9,8 @@ import time
 def show_time():
     box_1 = [random.random() for _ in range(1000001)]
     box_2 = [random.random() for _ in range(1000001)]
-    Array_1 = np.array(box_1)
-    Array_2 = np.array(box_2)
+    array_1 = np.array(box_1)
+    array_2 = np.array(box_2)
 
     stert_time = time.perf_counter()
     result_box = [box_1[p] * box_2[p] for p in range(len(box_1))]
@@ -18,7 +18,7 @@ def show_time():
     print("Execution time multiplication of lists:", end_time - stert_time)
     
     stert_time = time.perf_counter()
-    result_Array = np.multiply(Array_1, Array_2) 
+    result_Array = np.multiply(array_1, array_2) 
     end_time = time.perf_counter()
     print("Execution time multiplication of arrays NumPy:", end_time - stert_time)
 
@@ -65,7 +65,7 @@ def plot3D():
 
 if __name__ == "__main__":
     plt.style.use('https://github.com/dhaitz/matplotlib-stylesheets/raw/master/pitayasmoothie-dark.mplstyle')
-    animSin()
+    anim_sin()
     show_time()
     plot3D()
     histograms()
