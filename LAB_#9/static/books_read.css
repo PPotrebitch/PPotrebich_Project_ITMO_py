@@ -1,0 +1,9 @@
+ul {
+    list-style-type: "📚"
+}
+
+li {
+    margin-bottom: 11px;
+    border: solid orange;
+    padding: 11px;
+}

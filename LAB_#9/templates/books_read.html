@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title> Прочитанные книги </title>
+        <script type="text/javascript" src="/static/books_read.js"></script>
+        <link href="/static/books_read.css" rel="stylesheet"> 
+    </head>
+
+    <body>
+        <h1> Добавь прочитанные книги!</h1>
+        <form>
+            <div>
+                <label for="author">Автор книги: </label>
+                <input type='text' name="author" id="author">
+            </div>
+            <label for="name_book">Название книги: </label>
+            <input type='text' name="name_book" id="name_book">
+            <div>
+                <button onClick="createTask()">
+                    Добавить книгу
+                </button>
+            </div>
+        </form>
+
+        <ul>
+            {% for task in tasks_list %}
+            <li>
+                <div>
+                    <div>
+                        {{ task['author']}}
+                    </div>
+                    <div>
+                        {{ task['name_book']}}
+                    </div>
+                    <input value="{{task['id']}}" onChange="updateTask(this)" name='read' type="checkbox" {% if task.read %} checked {% endif %}/>
+                   <label for="'read">Прочитанно!</label>
+                </div>
+            </li>
+           {% endfor%}
+        </ul>
+    </body>
+</html>
