@@ -23,8 +23,8 @@ def main():
     print(tasks)
     return render_template('books_read.html', tasks_list=tasks)
 
-@app.route('/read/<int:tack_id>', methods=['PATCH'])
-def modify_tack(tack_id):
+@app.route('/read/<int:task_id>', methods=['PATCH'])
+def modify_task(task_id):
     task = Task.query.get(task_id)
     task.read = request.json['read']
     db.session.commit()
