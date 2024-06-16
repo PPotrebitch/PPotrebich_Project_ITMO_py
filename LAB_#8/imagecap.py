@@ -17,7 +17,8 @@ def point_normalize(pts):
     length_min_y=(center_y-min(array_y))
     length_max_y=(max(array_y)-center_y)
     return [max(min(array_x)-200,0),max(array_x)+200,max(min(array_y)-200,0),max(array_y)+200]     
- #   return [max(min(array_x)-3*length_min_x,0),max(array_x)+3*length_max_x,max(min(array_y)-3*length_min_y,0),max(array_y)+length_max_y]
+
+
 cap = cv.VideoCapture(0)
 
 # take first frame of the video
@@ -37,6 +38,9 @@ cv.normalize(roi_hist, roi_hist, 0, 255, cv.NORM_MINMAX)
 # Setup the termination criteria, either 10 iteration or move by at least 1 pt
 term_crit = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 1)
 
+
+
+# def get_poz_maker():
 right_count = 0
 left_count = 0
 old_pos = 2
@@ -67,39 +71,26 @@ while(True):
         elif mode == 2:
             detectWindow = frame
 
-        # x, y, w, h = cv.boundingRect(detectWindow)
-        a = x + (w // 2)
-        b = y + (h // 2)
         fly = cv.imread("fly64.png")
-        fly = cv.resize(fly, (64, 64))
+        fly_h, fly_w = fly.shape[:2]
+        # fly = cv.resize(fly, (64, 64))
         detectWindow = cv.cvtColor(detectWindow, cv.COLOR_RGB2GRAY)
-        count_img = detectWindow
         cimg = cv.cvtColor(detectWindow, cv.COLOR_GRAY2BGR)
         for i in params:
             circles = cv.HoughCircles(detectWindow, cv.HOUGH_GRADIENT, 1, 20, param1=50, param2=i,
                                       minRadius=0, maxRadius=100)
             if type(circles) != type(None):
                 if len(circles[0]) == 1:
-                    for i in range(64):
-                        for j in range(64):
-                            dx = int(circles[0][0][0])
-                            # print(dx)
-                            # dx = [0, 0]
-                            if dx < 32:
-                                dx = 32
-                            if dx > frame.shape[1] - 1:
-                                dx = frame.shape[1] - 1
-                            dy = int(circles[0][0][0])
-                            if dy < 32:
-                                dy = 32
-                            if dy > frame.shape[0] - 1:
-                                dy = frame.shape[0] - 1
-                            frame[(dx - 28):(dx + 27), (dy - 32):(dy + 32)] = fly
-                            # frame[(dx - 32):(dx + 32), (dy - 32):(dy + 32)] = fly
+                    
+                    dx = int(circles[0][0][0])
+                    dy = int(circles[0][0][1])
+                    frame[(dx - fly_w//2):(dx + fly_w//2), (dy - fly_h//2):(dy + fly_h//2)] = fly
+                    # frame[dy][dx] = fly
                     centre_x = frame.shape[1] // 2
-                    if x > centre_x:
+                    # print(centre_x)
+                    if dx > centre_x:
                         new_pos = 2
-                    if x + w < centre_x:
+                    if dx < centre_x:
                         new_pos = 1
                     if new_pos != old_pos:
                         if old_pos == 2:
@@ -107,62 +98,29 @@ while(True):
                         if old_pos == 1:
                             right_count += 1
                         old_pos = new_pos
-                    cv.putText(detectWindow, str(left_count), (100, 100),
-                               cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-                    cv.putText(detectWindow, str(right_count), (500, 100),
-                               cv.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+                        # print('r', right_count)
+                        # print('l', left_count)
+                    cv.putText(frame, str(left_count), (100, 100),
+                               cv.FONT_HERSHEY_SIMPLEX, 1, (0, 140, 255), 2)
+                    cv.putText(frame, str(right_count), (500, 100),
+                               cv.FONT_HERSHEY_SIMPLEX, 1, (148, 0, 211), 2)
 
                     circles = np.uint16(np.around(circles))
                     for i in circles[0, :]:
                         # draw the outer circle
-                        cv.circle(cimg, (i[0], i[1]), i[2], (0, 255, 0), 2)
+                        cv.circle(frame, (i[0], i[1]), i[2], (0, 255, 0), 2)
                         # draw the center of the circle
-                        cv.circle(cimg, (i[0], i[1]), 2, (0, 0, 255), 3)
+                        cv.circle(frame, (i[0], i[1]), 2, (0, 0, 255), 3)
                     break
             else:
                 pass
 
-        cv.imshow('img', count_img)
-        cv.imshow('detected circles', cimg)
+        # cv.imshow('fly_imgimg', fly)
+        # cv.imshow('detected circles', cimg)
+        cv.imshow('photo_point', frame)
         k = cv.waitKey(30) & 0xff
         if k == 27:
             break
     else:
          break
 
-
-
- # cv.rectangle(frame, (x, y), (x + w, y + h), (255, 165, 0), 2)
- #            a = x + (w // 2)
- #            b = y + (h // 2)
- #            fly = cv.imread("fly64.png")
- #            fly = cv.resize(fly, (64, 64))
- #            for i in range(64):
- #                for j in range(64):
- #                    dx = (a - 32 + j)
- #                    if dx < 0:
- #                        dx = 0
- #                    if dx > frame.shape[1] - 1:
- #                        dx = frame.shape[1] - 1
- #                    dy = (b - 32 + i)
- #                    if dy < 0:
- #                        dy = 0
- #                    if dy > frame.shape[0] - 1:
- #                        dy = frame.shape[0] - 1
- #                    frame[dy][dx] = fly[j][i]
- #            centre_x = frame.shape[1] // 2
- #            if x > centre_x:
- #                new_pos = 2
- #            if x + w < centre_x:
- #                new_pos = 1
- #            if new_pos != old_pos:
- #                if old_pos == 2:
- #                    left_count += 1
- #                if old_pos == 1:
- #                    right_count += 1
- #                old_pos = new_pos
- #            # cv2.circle(frame, center, radius, (0, 255, 0), 2)
- #            cv.putText(frame, str(left_count), (100, 100),
- #                       cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
- #            cv.putText(frame, str(right_count), (500, 100),
- #                       cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
